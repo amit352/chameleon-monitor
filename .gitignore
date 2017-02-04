@@ -34,3 +34,5 @@ workspace.xml
 .idea/inspectionProfiles/profiles_settings.xml
 .idea/inspectionProfiles/Project_Default.xml
 .idea/watcherTasks.xml
+
+*.DS_Store

@@ -1,0 +1,132 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><!-- Mobile Specific Metas--><meta name="HandheldFriendly" content="True"><meta name="MobileOptimized" content="320"><meta name="viewport" content="width=device-width, initial-scale=1.0"><!-- Title and meta description--><title>Chameleon Monitor</title><meta class="description" content="Monitor UV light, temperature, and misting system water level."><!-- CSS--><!--link(rel='stylesheet', href='public/css/main.css')--><style>body {
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+li label {
+    display: inline-block;
+    min-width: 100px;
+}
+
+.display-value {
+    margin-left: 1em;
+}
+</style><!-- https://fortawesome.github.io/Font-Awesome/icons/--><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"></head><body><h1>Chameleon Monitoring System</h1><h3>Monitors the following:</h3><ul><li><label>UV light</label><span class="display-value" id="uv"></span></li><li><label>Temperature</label><span class="display-value" id="temp"></span></li><li>Water level on misting system drain</li></ul><div id="chart"></div></body><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/5.0.7/highcharts.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.min.js"></script><script>(function () {
+    var socket = io();
+    var totalPoints = 30;
+
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    socket.emit('newUser', {
+        name: 'Ryan',
+        date: Date.now()
+    });
+
+    socket.on('new-reading', function (data) {
+        $('#uv').html(data.uv);
+        $('#temp').html(data.temp);
+    });
+
+    Highcharts.setOptions({
+        global: {
+            useUTC: false
+        },
+        plotOptions: {
+            series: {
+                marker: {
+                    enabled: false
+                }
+            }
+        },
+        tooltip: {
+            enabled: true
+        }
+    });
+
+    $('#chart').highcharts({
+        chart: {
+            type: 'spline',
+            events: {
+                load: function () {
+                    var temperatureSeries = this.series[0]
+                            , lightSeries = this.series[1]
+                            , pointCount = 30
+                            , x
+                            , uvs
+                            , temperature;
+
+                    socket.on('new-reading', function (data) {
+                        x = data.date;
+                        uvs = data.uv;
+                        temperature = data.temp;
+
+                        lightSeries.addPoint([x, uvs], false, lightSeries.data.length > pointCount);
+                        temperatureSeries.addPoint([x, temperature], true, temperatureSeries.data.length > pointCount);
+                    });
+                }
+            }
+        },
+        credit: false,
+        title: {
+            text: 'Sensor Data'
+        },
+        xAxis: {
+            type: 'datetime',
+            tickPixelInterval: 500
+        },
+        yAxis: [{
+            title: {
+                text: 'Temperature',
+                style: {
+                    font: '13px sans-serif'
+                }
+            },
+            min: 0,
+            max: 100,
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        }, {
+            title: {
+                text: 'UV Light',
+                style: {
+                    font: '13px sans-serif'
+                }
+            },
+            min: 0,
+            max: 1,
+            opposite: true,
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        }],
+        tooltip: {
+            formatter: function () {
+                var unitOfMeasurement = this.series.name === 'Temperature' ? ' °F' : ' %';
+                return '<b>' + this.series.name + '</b><br/>' +
+                        Highcharts.numberFormat(this.y, 1) + unitOfMeasurement;
+            }
+        },
+        legend: {
+            enabled: true
+        },
+        exporting: {
+            enabled: false
+        },
+        series: [{
+            name: 'Temperature',
+            yAxis: 0,
+            data: []
+        }, {
+            name: 'UV Light',
+            yAxis: 1,
+            data: []
+        }]
+    });
+})();</script></html>
