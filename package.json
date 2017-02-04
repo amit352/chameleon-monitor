@@ -16,7 +16,5 @@
     "tiny-router": "^0.1.4"
   },
   "devDependencies": {
-    "node-sass": "^4.4.0",
-    "nodemon": "^1.11.0"
   }
 }
