@@ -1,7 +1,7 @@
 const router = require('tiny-router')
   , fs = require('fs')
   , http = require('http').createServer(router.Router())
-  , PORT = 3000
+  , PORT = 3030
   , socketIO = require('socket.io')(http)
   ;
 
