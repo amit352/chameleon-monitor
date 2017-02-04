@@ -1,9 +1,10 @@
 var m = require('mraa');
 var ledState = true;
 var myLed = new m.Gpio(44);
-var temp = new m.Aio(0);
+var temp = new m.Gpio(5);
 
 myLed.dir(m.DIR_OUT);
+temp.dir(m.DIR_IN);
 
 
 function periodicActivity() {
