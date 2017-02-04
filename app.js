@@ -5,6 +5,7 @@ const router = require('tiny-router')
   , socketIO = require('socket.io')(http)
   ;
 
+
 router.use('defaultPage', './public/views/index.html');
 
 router.use('public', {path: __dirname + '/public'});
@@ -52,4 +53,4 @@ setInterval(emitRandomValues, 1000);
 http.listen(PORT);
 
 // log the port
-console.log(`Up and running on localhost:${PORT}`);
+console.log(`Up and running on mylinkit.local:${PORT}`);

@@ -57,4 +57,4 @@ setInterval(emitRandomValues, 1000);
 http.listen(PORT);
 
 // log the port
-console.log('Up and running on localhost:' + PORT);
+console.log('Up and running on mylinkit.local:' + PORT);
