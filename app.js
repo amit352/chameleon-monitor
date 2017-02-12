@@ -62,7 +62,7 @@ var board = new firmata.Board("/dev/ttyS0", function (err) {
     var temp = getRandomInt(70, 90);
     var date = Date.now();
 
-    socketIO.emit('new-reading', {uv, temp, date});
+    socketIO.emit('new-reading', {uv: uv, temp: temp, date: date});
   };
 
   setInterval(function () {
