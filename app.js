@@ -1,4 +1,4 @@
-const router = require('tiny-router')
+var router = require('tiny-router')
   , fs = require('fs')
   , http = require('http').createServer(router.Router())
   , PORT = 3030
@@ -7,7 +7,7 @@ const router = require('tiny-router')
   , ledPin = 13
   ;
 
-const board = new firmata.Board("/dev/ttyS0", function (err) {
+var board = new firmata.Board("/dev/ttyS0", function (err) {
   if (err) {
     console.log(err);
     board.reset();
@@ -37,12 +37,16 @@ const board = new firmata.Board("/dev/ttyS0", function (err) {
   });
 
   // socket events
-  socketIO.on('connection', socket => {
+  socketIO.on('connection', function (socket) {
     console.log('New connection!');
 
-    socket.on('newUser', data => console.log(data));
+    socket.on('newUser', function (data) {
+      console.log(data)
+    });
 
-    socket.on('disconnect', text => console.log(text));
+    socket.on('disconnect', function (text) {
+      console.log(text)
+    });
   });
 
   function getRandomInt(min, max) {
@@ -54,19 +58,21 @@ const board = new firmata.Board("/dev/ttyS0", function (err) {
       return;
     }
 
-    let uv = getRandomInt(4, 6) / 10;
-    let temp = getRandomInt(70, 90);
-    let date = Date.now();
+    var uv = getRandomInt(4, 6) / 10;
+    var temp = getRandomInt(70, 90);
+    var date = Date.now();
 
     socketIO.emit('new-reading', {uv, temp, date});
   };
 
-  setInterval(emitRandomValues, 1000);
+  setInterval(function () {
+    this.emitRandomValues();
+  }.bind(this), 1000);
 
   // set the app to listen on port 3000
   http.listen(PORT);
 
   // log the port
-  console.log(`Up and running on mylinkit.local:${PORT}`);
+  console.log(`Up and running on mylinkit.local:$` + PORT);
 });
 
