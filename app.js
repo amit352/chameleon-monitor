@@ -4,7 +4,6 @@ var router = require('tiny-router')
   , PORT = 3030
   , socketIO = require('socket.io')(http)
   , firmata = require('firmata')
-  , mraa = require('mraa')
   , ledPin = 13
   , ledState = 0
   ;
@@ -20,13 +19,13 @@ var board = new firmata.Board("/dev/ttyS0", function (err) {
   console.log('connected...');
   console.log('board.firmware: ', board.firmware);
 
-  var myAnalogPin = new mraa.Aio(0);
-  myAnalogPin.setBit(10);
-
   board.pinMode(ledPin, board.MODES.OUTPUT);
   board.digitalWrite(ledPin, 0);
 
-  console.log(myAnalogPin.read());
+  board.pinMode('a0', board.MODES.ANALOG);
+  board.analogRead('a0', function (value) {
+    console.log('analogPing 0: ', value);
+  });
 
   router.use('defaultPage', './public/views/index.html');
 
