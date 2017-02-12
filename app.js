@@ -1,9 +1,10 @@
 var router = require('tiny-router')
   , fs = require('fs')
   , http = require('http').createServer(router.Router())
-  , PORT = 3030
   , socketIO = require('socket.io')(http)
   , firmata = require('firmata')
+  , ip = require('ip')
+  , PORT = 3030
   , ledPin = 13
   , ledState = 0
   ;
@@ -86,6 +87,6 @@ var board = new firmata.Board("/dev/ttyS0", function (err) {
   http.listen(PORT);
 
   // log the port
-  console.log('Up and running on mylinkit.local:' + PORT);
+  console.log('Up and running on ' + ip.address() + ':' + PORT);
 });
 
