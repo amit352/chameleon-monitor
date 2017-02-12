@@ -23,9 +23,6 @@ var board = new firmata.Board("/dev/ttyS0", function (err) {
   board.digitalWrite(ledPin, 0);
 
   board.pinMode(5, board.MODES.ANALOG);
-  board.analogRead(5, function (value) {
-    console.log('analogPing 5: ', value);
-  });
 
   console.log('analogPin 5: ', board.pins[board.analogPins[5]].value);
 
@@ -74,8 +71,8 @@ var board = new firmata.Board("/dev/ttyS0", function (err) {
       return;
     }
 
-    var uv = getRandomInt(4, 6) / 10;
-    var temp = getRandomInt(70, 90);
+    var uv = Math.round(board.pins[board.analogPins[5]].value / 1023 * 1000) / 1000;
+    var temp = getRandomInt(70, 73);
     var date = Date.now();
 
     socketIO.emit('new-reading', {uv: uv, temp: temp, date: date});
