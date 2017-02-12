@@ -22,10 +22,12 @@ var board = new firmata.Board("/dev/ttyS0", function (err) {
   board.pinMode(ledPin, board.MODES.OUTPUT);
   board.digitalWrite(ledPin, 0);
 
-  board.pinMode('a0', board.MODES.ANALOG);
-  board.analogRead('a0', function (value) {
-    console.log('analogPing 0: ', value);
+  board.pinMode(5, board.MODES.ANALOG);
+  board.analogRead(5, function (value) {
+    console.log('analogPing 5: ', value);
   });
+
+  console.log('analogPin 5: ', board.pins[board.analogPins[5]].value);
 
   router.use('defaultPage', './public/views/index.html');
 
@@ -55,7 +57,7 @@ var board = new firmata.Board("/dev/ttyS0", function (err) {
       ledState = Math.abs(ledState - 1);
       board.digitalWrite(ledPin, ledState);
 
-      console.log(myAnalogPin.read())
+      console.log('analogPin 5: ', board.pins[board.analogPins[5]].value);
     });
 
     socket.on('disconnect', function (text) {
