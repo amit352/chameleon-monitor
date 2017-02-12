@@ -73,6 +73,6 @@ var board = new firmata.Board("/dev/ttyS0", function (err) {
   http.listen(PORT);
 
   // log the port
-  console.log(`Up and running on mylinkit.local:$` + PORT);
+  console.log('Up and running on mylinkit.local:$' + PORT);
 });
 
