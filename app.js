@@ -7,8 +7,8 @@ var router = require('tiny-router')
   , mraa = require('mraa')
   , ledPin = 13
   , ledState = 0
-  , myAnalogPin = new mraa.Aio('A0')
   ;
+
 
 var board = new firmata.Board("/dev/ttyS0", function (err) {
   if (err) {
@@ -19,6 +19,9 @@ var board = new firmata.Board("/dev/ttyS0", function (err) {
 
   console.log('connected...');
   console.log('board.firmware: ', board.firmware);
+
+  var myAnalogPin = new mraa.Aio(0);
+  myAnalogPin.setBit(10);
 
   board.pinMode(ledPin, board.MODES.OUTPUT);
   board.digitalWrite(ledPin, 0);
