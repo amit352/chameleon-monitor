@@ -3,7 +3,7 @@ var router = require('tiny-router')
   , http = require('http').createServer(router.Router())
   , socketIO = require('socket.io')(http)
   , firmata = require('firmata')
-  , ip = require('ip')
+  , os = require('os')
   , PORT = 3030
   , ledPin = 13
   , ledState = 0
@@ -85,8 +85,11 @@ var board = new firmata.Board("/dev/ttyS0", function (err) {
 
   // set the app to listen on port 3000
   http.listen(PORT);
+  var eth0 = os.networkInterfaces().apcli0;
+
+  var address = eth0 && eth0.length && eth0[0].address ? eth0[0].address : null;
 
   // log the port
-  console.log('Up and running on ' + ip.address() + ':' + PORT);
+  console.log('Up and running on ' + address + ':' + PORT);
 });
 
