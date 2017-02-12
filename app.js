@@ -7,7 +7,7 @@ var router = require('tiny-router')
   , mraa = require('mraa')
   , ledPin = 13
   , ledState = 0
-  , myAnalogPin = new mraa.Aio(0)
+  , myAnalogPin = new mraa.Aio('A0')
   ;
 
 var board = new firmata.Board("/dev/ttyS0", function (err) {
