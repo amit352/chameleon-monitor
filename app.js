@@ -66,7 +66,7 @@ var board = new firmata.Board("/dev/ttyS0", function (err) {
   };
 
   setInterval(function () {
-    this.emitRandomValues();
+    emitRandomValues();
   }.bind(this), 1000);
 
   // set the app to listen on port 3000
