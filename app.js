@@ -21,6 +21,11 @@ var board = new firmata.Board("/dev/ttyS0", function (err) {
   board.pinMode(ledPin, board.MODES.OUTPUT);
   board.digitalWrite(ledPin, 0);
 
+  board.pinMode(18, board.MODES.ANALOG);
+  board.analogRead(18, function (value) {
+    console.log("The value of pin A0 is " + value + " as reported at " + Date.now());
+  });
+
   router.use('defaultPage', './public/views/index.html');
 
   router.use('public', {path: __dirname + '/public'});
