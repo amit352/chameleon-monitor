@@ -5,6 +5,7 @@ var router = require('tiny-router')
   , socketIO = require('socket.io')(http)
   , firmata = require('firmata')
   , ledPin = 13
+  , ledState = 0
   ;
 
 var board = new firmata.Board("/dev/ttyS0", function (err) {
@@ -44,6 +45,11 @@ var board = new firmata.Board("/dev/ttyS0", function (err) {
       console.log(data)
     });
 
+    socket.on('toggleLed', function () {
+      ledState = Math.abs(ledState - 1);
+      board.digitalWrite(ledPin, ledState);
+    });
+
     socket.on('disconnect', function (text) {
       console.log(text)
     });
@@ -73,6 +79,6 @@ var board = new firmata.Board("/dev/ttyS0", function (err) {
   http.listen(PORT);
 
   // log the port
-  console.log('Up and running on mylinkit.local:$' + PORT);
+  console.log('Up and running on mylinkit.local:' + PORT);
 });
 
