@@ -66,7 +66,7 @@ board.on('ready', function (err) {
 
     socket.on('toggleLed', function () {
       ledState = Math.abs(ledState - 1);
-      led.set(ledState);
+      led.toggle(ledState);
 
       socketIO.emit('led:toggled', {ledState: ledState});
     });
