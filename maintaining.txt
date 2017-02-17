@@ -1,0 +1,2 @@
+## Move files from docker container to current dir
+docker cp 8c68186d4862:/root/mt7688-cross/node_modules_mips/johnny-five-0.10.6_mips.tar.gz .
