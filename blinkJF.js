@@ -10,10 +10,10 @@ var board = new five.Board({
 // The board's pins will not be accessible until
 // the board has reported that it is ready
 board.on("ready", function () {
-  this.pinMode(13, this.MODES.OUTPUT);
+  var sensor = new five.Sensor("A0");
 
-  this.loop(500, function () {
-    // Whatever the last value was, write the opposite
-    this.digitalWrite(13, this.pins[13].value ? 0 : 1);
+  // log adc value of sensor
+  sensor.on("change", function () {
+    console.log(this.value);
   });
 });
