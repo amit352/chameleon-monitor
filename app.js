@@ -55,6 +55,8 @@ var board = new firmata.Board("/dev/ttyS0", function (err) {
       ledState = Math.abs(ledState - 1);
       board.digitalWrite(ledPin, ledState);
 
+      socketIO.emit('led:toggled', {ledState: ledState});
+
       console.log('analogPin 5: ', board.pins[board.analogPins[5]].value);
     });
 
