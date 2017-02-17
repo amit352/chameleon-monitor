@@ -10,13 +10,16 @@ var board = new five.Board({
 // The board's pins will not be accessible until
 // the board has reported that it is ready
 board.on("ready", function () {
-  var sensor = new five.Thermometer({
+  var temp = new five.Thermometer({
     controller: "LM35",
     pin: "A0"
   });
 
-  // log adc value of sensor
-  sensor.on("change", function () {
-    console.log(this.value);
+  // log temp
+  temp.on("change", function () {
+    console.log("raw: ", this.value);
+    console.log("celsius: %d", this.C);
+    console.log("fahrenheit: %d", this.F);
+    console.log("kelvin: %d", this.K);
   });
 });
