@@ -11,8 +11,10 @@ var board = new five.Board({
 // the board has reported that it is ready
 board.on("ready", function () {
   var temp = new five.Thermometer({
-    controller: "LM35",
-    pin: "A0"
+    pin: "A0",
+    toCelsius: function (raw) { // optional
+      return (3.3 / 1024) * raw * 100;
+    }
   });
 
   // log temp
