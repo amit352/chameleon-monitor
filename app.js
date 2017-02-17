@@ -2,31 +2,43 @@ var router = require('tiny-router')
   , fs = require('fs')
   , http = require('http').createServer(router.Router())
   , socketIO = require('socket.io')(http)
-  , firmata = require('firmata')
+  , five = require('johnny-five')
   , os = require('os')
+  , eth0 = os.networkInterfaces().apcli0
+  , address = eth0 && eth0.length && eth0[0].address ? eth0[0].address : null
   , PORT = 3030
-  , ledPin = 13
   , ledState = 0
+  , _temp = 0
+  , _uv = 0
+  , _date
   ;
 
 
-var board = new firmata.Board("/dev/ttyS0", function (err) {
+var board = new five.Board({
+  port: "/dev/ttyS0"
+});
+
+board.on('ready', function (err) {
   if (err) {
     console.log(err);
     board.reset();
     return;
   }
 
-  console.log('connected...');
-  console.log('board.firmware: ', board.firmware);
+  console.log('connected...Johnny-Five ready to go.');
+  var led = new five.Led(13);
+  var temp = new five.Thermometer({
+    pin: "A0",
+    freq: 250,
+    toCelsius: function (raw) {
+      // adjusting to match 3.3v of 7688 DUO
+      return (3.3 / 1024) * raw * 100;
+    }
+  });
 
-  board.pinMode(ledPin, board.MODES.OUTPUT);
-  board.digitalWrite(ledPin, 0);
-
-  board.pinMode(5, board.MODES.ANALOG);
-  board.pinMode(0, board.MODES.ANALOG);
-  console.log('analogPin 5: ', board.pins[board.analogPins[5]].value);
-  console.log('analogPin 5: ', board.pins[board.analogPins[0]].value);
+  temp.on('change', function () {
+    _temp = this.F;
+  });
 
   router.use('defaultPage', './public/views/index.html');
 
@@ -54,11 +66,9 @@ var board = new firmata.Board("/dev/ttyS0", function (err) {
 
     socket.on('toggleLed', function () {
       ledState = Math.abs(ledState - 1);
-      board.digitalWrite(ledPin, ledState);
+      led.set(ledState);
 
       socketIO.emit('led:toggled', {ledState: ledState});
-
-      console.log('analogPin 5: ', board.pins[board.analogPins[5]].value);
     });
 
     socket.on('disconnect', function (text) {
@@ -66,31 +76,23 @@ var board = new firmata.Board("/dev/ttyS0", function (err) {
     });
   });
 
-  function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-
-  function emitRandomValues() {
+  function emitReadingsToClient() {
     if (!socketIO) {
       return;
     }
 
-    var uv = Math.round(board.pins[board.analogPins[5]].value / 1023 * 1000) / 1000;
-    var temp = board.pins[board.analogPins[5]].value;
-    var date = Date.now();
+    _uv = .2;
+    _date = Date.now();
 
-    socketIO.emit('new-reading', {uv: uv, temp: temp, date: date});
+    socketIO.emit('new-reading', {uv: _uv, temp: _temp, date: _date});
   };
 
   setInterval(function () {
-    emitRandomValues();
+    emitReadingsToClient();
   }.bind(this), 1000);
 
   // set the app to listen on port 3000
   http.listen(PORT);
-  var eth0 = os.networkInterfaces().apcli0;
-
-  var address = eth0 && eth0.length && eth0[0].address ? eth0[0].address : null;
 
   // log the port
   console.log('Up and running on ' + address + ':' + PORT);
