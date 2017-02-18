@@ -1,13 +1,41 @@
 body {
-	margin: 0 auto;
-	max-width: 1200px;
+  margin: 0 auto;
+  max-width: 1200px;
 }
 
 li label {
-	display: inline-block;
-	min-width: 100px;
+  display: inline-block;
+  min-width: 100px;
 }
 
 .display-value {
-	margin-left: 1em;
+  margin-left: 1em;
+}
+
+// led styles
+.led {
+  display: inline-block;
+  margin: 20px auto 0 auto;
+  width: 48px;
+  height: 48px;
+  background-color: #CCC;
+  border-radius: 50%;
+
+  transition: all 400ms ease-out;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 2px 1px;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+}
+
+.led-red {
+  background-color: #F00;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 12px;
+}
+
+.led-green {
+  background-color: #ABFF00;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #304701 0 -1px 9px, #89FF00 0 2px 12px;
 }

@@ -4,6 +4,7 @@
   "description": "LinkIt Smart 7699 Duo microntroller monitors a chameleon cage for UV light, temperature and water levels for misting system.",
   "main": "app.js",
   "scripts": {
+    "build": "npm run sass && npm run pug",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon app.js",
     "pug": " pug views/pug/index.pug -o public/views",

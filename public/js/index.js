@@ -22,9 +22,9 @@ $(function () {
     var state = data.ledState;
 
     if (state) {
-      $('#led').addClass('led-on');
+      $('.led').addClass('led-green');
     } else {
-      $('#led').removeClass('led-on');
+      $('.led').removeClass('led-green');
     }
   });
 
