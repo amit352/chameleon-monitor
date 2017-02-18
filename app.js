@@ -1,6 +1,7 @@
 var express = require('express')
   , app = express()
   , fs = require('fs')
+  , path = require('path')
   , http = require('http').createServer(app)
   , socketIO = require('socket.io')(http)
   , five = require('johnny-five')
@@ -18,7 +19,7 @@ var express = require('express')
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', function (req, res, next) {
-  res.sendFile(__dirname + '/public/views/index.html');
+  res.sendFile(path.join(__dirname + '/public/views/index.html'));
 });
 
 var board = new five.Board({
