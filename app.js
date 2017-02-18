@@ -15,10 +15,10 @@ var express = require('express')
   ;
 
 
-app.use(express.static(__dirname + '/public'));
+app.use('/public', express.static(__dirname + '/public'));
 
 app.get('/', function (req, res, next) {
-  res.sendFile(__dirname + '/index.html')
+  res.sendFile('/views/index.html')
 });
 
 var board = new five.Board({
