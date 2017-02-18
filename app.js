@@ -15,8 +15,7 @@ var express = require('express')
   , _date
   ;
 
-
-app.use(express.static(__dirname + '/public'));
+app.use('/public', express.static(__dirname + '/public'));
 
 app.get('/', function (req, res, next) {
   res.sendFile(path.join(__dirname + '/public/views/index.html'));
