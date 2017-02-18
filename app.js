@@ -1,7 +1,7 @@
 var express = require('express')
   , app = express()
   , fs = require('fs')
-  , http = require('http').createServer(router.Router())
+  , http = require('http').createServer(app)
   , socketIO = require('socket.io')(http)
   , five = require('johnny-five')
   , os = require('os')
@@ -17,7 +17,7 @@ var express = require('express')
 
 app.use(express.static(__dirname + '/public'));
 
-app.get('/', function(req, res, next) {
+app.get('/', function (req, res, next) {
   res.sendFile(__dirname + '/index.html')
 });
 
