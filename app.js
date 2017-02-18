@@ -1,4 +1,5 @@
-var router = require('tiny-router')
+var express = require('express')
+  , app = express()
   , fs = require('fs')
   , http = require('http').createServer(router.Router())
   , socketIO = require('socket.io')(http)
@@ -13,6 +14,12 @@ var router = require('tiny-router')
   , _date
   ;
 
+
+app.use(express.static(__dirname + '/public'));
+
+app.get('/', function(req, res, next) {
+  res.sendFile(__dirname + '/index.html')
+});
 
 var board = new five.Board({
   port: "/dev/ttyS0"
@@ -38,22 +45,6 @@ board.on('ready', function (err) {
 
   temp.on('change', function () {
     _temp = this.F;
-  });
-
-  router.use('defaultPage', './public/views/index.html');
-
-  router.use('public', {path: __dirname + '/public'});
-
-  // render index page
-  router.get('/', function (req, res) {
-    fs.readFile('./public/views/index.html', function (err, html) {
-      if (err) {
-        throw err;
-      }
-      res.writeHeader(200, {"Content-Type": "text/html"});
-      res.write(html);
-      res.end();
-    });
   });
 
   // socket events
