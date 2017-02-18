@@ -9,9 +9,15 @@ li label {
 .display-value {
   margin-left: 1em; }
 
+.flex {
+  display: flex; }
+
+li button {
+  align-self: center; }
+
 .led {
   display: inline-block;
-  margin: 20px auto 0 auto;
+  margin: 10px 0 0 20px;
   width: 48px;
   height: 48px;
   background-color: #CCC;
