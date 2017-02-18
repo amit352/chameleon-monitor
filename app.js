@@ -18,7 +18,7 @@ var express = require('express')
 app.use('/public', express.static(__dirname + '/public'));
 
 app.get('/', function (req, res, next) {
-  res.sendFile('/views/index.html')
+  res.sendFile('public/views/index.html', {root: __dirname});
 });
 
 var board = new five.Board({
