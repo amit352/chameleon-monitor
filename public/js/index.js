@@ -28,6 +28,13 @@ $(function () {
     }
   });
 
+  // click even for toggling led
+  $('button.toggleLed').on('click', function () {
+    if (socket) {
+      socket.emit('toggleLed');
+    }
+  });
+
   // setting options for HighCharts
   Highcharts.setOptions({
     global: {
