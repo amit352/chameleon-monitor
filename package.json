@@ -17,5 +17,8 @@
     "johnny-five": "^0.10.6",
     "socket.io": "^1.7.2"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "node-sass": "^4.5.0",
+    "pug": "^0.1.0"
+  }
 }

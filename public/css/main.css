@@ -14,6 +14,8 @@ li label {
 
 li button {
   align-self: center; }
+  li button:hover {
+    cursor: pointer; }
 
 .led {
   display: inline-block;

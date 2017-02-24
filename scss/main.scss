@@ -18,6 +18,10 @@ li label {
 
 li button {
   align-self: center;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 // led styles

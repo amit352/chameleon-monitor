@@ -29,7 +29,7 @@ $(function () {
   });
 
   // click even for toggling led
-  $('button.toggleLed').on('click', function () {
+  $('button.toggleLed, .led').on('click', function () {
     if (socket) {
       socket.emit('toggleLed');
     }
