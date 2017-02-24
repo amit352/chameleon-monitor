@@ -64,9 +64,9 @@ board.on('ready', function (err) {
   socketIO.on('connection', function (socket) {
     console.log('New connection!');
 
-    socket.on('newUser', function (data) {
-      // increase users count
-      _users++;
+    socket.on('newUser', function () {
+      // update users count
+      _users = socketIO.engine.clientsCount;
       console.log('Total users: ' + _users);
     });
 
@@ -78,8 +78,8 @@ board.on('ready', function (err) {
     });
 
     socket.on('disconnect', function () {
-      // decrease users count
-      _users--;
+      // update users count
+      _users = socketIO.engine.clientsCount;
       console.log('Total users: ' + _users);
     });
   });
