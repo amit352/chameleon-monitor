@@ -13,9 +13,9 @@
   "author": "Ryan Gill",
   "license": "ISC",
   "dependencies": {
-    "socket.io": "^1.7.2",
-    "tiny-router": "^0.1.4"
+    "express": "^4.14.1",
+    "johnny-five": "^0.10.6",
+    "socket.io": "^1.7.2"
   },
-  "devDependencies": {
-  }
+  "devDependencies": {}
 }
