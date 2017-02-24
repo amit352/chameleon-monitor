@@ -12,6 +12,7 @@ var express = require('express')
   , ledState = 0
   , _temp = 0
   , _uv = 0
+  , _users = 0
   , _date
   ;
 
@@ -33,7 +34,9 @@ board.on('ready', function (err) {
   }
 
   console.log('connected...Johnny-Five ready to go.');
+
   var led = new five.Led(13);
+
   var temp = new five.Thermometer({
     pin: "A0",
     freq: 250,
@@ -43,8 +46,18 @@ board.on('ready', function (err) {
     }
   });
 
+  var uv = new five.Sensor({
+    pin: "A1",
+    freq: 250,
+    thresh: 0.5
+  });
+
   temp.on('change', function () {
     _temp = this.F;
+  });
+
+  uv.on('change', function () {
+    _uv = (3.3 / 1024) * this.value * 10;
   });
 
   // socket events
@@ -52,18 +65,22 @@ board.on('ready', function (err) {
     console.log('New connection!');
 
     socket.on('newUser', function (data) {
-      console.log(data)
+      // increase users count
+      _users++;
+      console.log('Total users: ' + _users);
     });
 
     socket.on('toggleLed', function () {
       ledState = Math.abs(ledState - 1);
       led.toggle(ledState);
-
-      socketIO.emit('led:toggled', {ledState: ledState});
+      // emit led was toggled
+      socketIO.sockets.emit('led:toggled', {ledState: ledState});
     });
 
-    socket.on('disconnect', function (text) {
-      console.log(text)
+    socket.on('disconnect', function () {
+      // decrease users count
+      _users--;
+      console.log('Total users: ' + _users);
     });
   });
 
@@ -72,15 +89,14 @@ board.on('ready', function (err) {
       return;
     }
 
-    _uv = .2;
     _date = Date.now();
 
-    socketIO.emit('new-reading', {uv: _uv, temp: _temp, date: _date});
+    socketIO.sockets.emit('new-reading', {uv: _uv, temp: _temp, date: _date});
   };
 
   setInterval(function () {
     emitReadingsToClient();
-  }.bind(this), 1000);
+  }, 1000);
 
   // set the app to listen on port 3000
   http.listen(PORT);
