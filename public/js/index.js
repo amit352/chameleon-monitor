@@ -170,7 +170,7 @@ $(function () {
 
 
     $('#trianglify').html(pattern.canvas());
-  }, 50, false);
+  }, 50, true);
 
   trianglify();  
 
