@@ -1,3 +1,6 @@
+$purple: #762a83;
+$green: #1b7837;
+
 body {
   overflow: hidden;
 }
@@ -129,14 +132,14 @@ body {
   #temp {
 
     .display-value, .uom {
-      color: #29B6F6
+      color: $purple;
     }
   }
 
   #uv {
 
     .display-value {
-      color: #FFA726
+      color: $green;
     }
   }
 }
