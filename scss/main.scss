@@ -1,35 +1,48 @@
 $purple: #762a83;
 $green: #1b7837;
 
-body {
-  overflow: auto;
+
+html, body {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  font-family: 'Source Sans Pro', sans-serif; 
 }
 
+
 #container {
+  max-height: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+
   position: relative;
 
-  margin: 0 auto;
-  max-width: 1200px;  
-  overflow: hidden;
+  > header, > div {
+    display: flex;
+    justify-content: space-between;
+  }
 }
 
 header {
   position: relative;
+  flex: 0 1 auto;
+  margin: 1rem;
 
   #trianglify {
+    flex: 1 1 auto;
     position: absolute;
     z-index: -1;
     height: 100%;
     top: 0;
     left: 0;
     overflow: hidden;
-    margin: 0 1rem;
     border-radius: 4px;
-
   }
 
   h1 {
-    margin: 1rem;
+    flex: 1 1 auto;
     text-align: center;
     padding: 2rem 0;
   }
@@ -40,13 +53,15 @@ header {
 
 
 #panels {
+  flex: 0 1 auto;
   display: flex;
-  justify-content: space-around;
+  flex-direction: row;
+  justify-content: space-between;
+
+  margin: 0 1rem;
 
   .panel {
-    flex: 1;
-    margin: 0 1rem;
-
+    flex: 1 1 auto;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -54,7 +69,11 @@ header {
     padding: 1rem;
 
     border: 1px solid #DDD;
-    border-radius: 4px; 
+    border-radius: 4px;
+
+    &:nth-of-type(2) {
+      margin: 0 1rem;
+    } 
 
     > div {
       display: flex;
@@ -89,7 +108,9 @@ header {
 }
 
 #chart {
-  margin: 1rem;
+  flex: 1 1 auto;
+  padding: 0;
+  margin: 1rem;    
 
   > .highcharts-container {
     border: 1px solid #DDD;
@@ -155,4 +176,16 @@ body {
       color: $green;
     }
   }
+}
+
+@media (max-width: 510px) {
+  #container{
+    header {
+      display: none;
+    }
+
+    #panels {
+      margin-top: 1rem;
+    }
+  } 
 }

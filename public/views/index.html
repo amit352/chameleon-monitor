@@ -55,7 +55,7 @@
   });
 
   // build chart showing UV and temp readings
-  var Chart = $('#chart').highcharts({
+  window.Chart = Highcharts.chart('chart', {
     chart: {
       type: 'spline',
       events: {
@@ -147,6 +147,8 @@
     }]
   });
 
+  Chart.reflow();
+
   function debounce(func, wait, immediate) {
     var timeout;
     return function() {
@@ -167,22 +169,26 @@
   var Paired = ["#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c","#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928"];
   var PRGn = ["#40004b","#762a83","#9970ab","#c2a5cf","#e7d4e8","#f7f7f7","#d9f0d3","#a6dba0","#5aae61","#1b7837","#00441b"];
 
-  var trianglify =  debounce(function () {
-    var $h1 = $('header h1');
+  var updateHeaderAndChart =  debounce(function () {
+    var $header = $('header');
 
     var pattern = Trianglify({
-      height: $h1.innerHeight(),
-      width: $h1.innerWidth(),
+      height: $header.innerHeight(),
+      width: $header.innerWidth(),
       cell_size: 40,
       x_colors: PRGn
     });
 
     $('#trianglify').html(pattern.canvas());
+
+    if (Chart) {
+      Chart.reflow();
+    }
   }, 50, false);
 
-  trianglify();  
+  updateHeaderAndChart(); 
 
-  window.addEventListener('resize', trianglify);
+  window.addEventListener('resize',updateHeaderAndChart);
 });
 
 </script></html>
