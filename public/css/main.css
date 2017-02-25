@@ -79,9 +79,10 @@ header {
   box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #304701 0 -1px 9px, #89FF00 0 2px 12px; }
 
 body {
-  background-color: #F5F5F5; }
+  background-color: #F5F5F5;
+  color: #4d4d4d; }
   body h1 {
-    color: #FFF; }
+    color: #4d4d4d; }
   body .panel {
     background-color: #FFF; }
   body #temp .display-value, body #temp .uom {
