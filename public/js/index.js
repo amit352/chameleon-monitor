@@ -14,7 +14,7 @@ $(function () {
   // update uv and temp displays on new-reading
   socket.on('new-reading', function (data) {
     $('#uv .display-value').html(data.uv);
-    $('#temp .display-value').html(data.temp);
+    $('#temp .display-value').html(Math.round(data.temp));
   });
 
   // update led when led:toggled event is emitted
