@@ -13,8 +13,8 @@ $(function () {
 
   // update uv and temp displays on new-reading
   socket.on('new-reading', function (data) {
-    $('#uv').html(data.uv);
-    $('#temp').html(data.temp);
+    $('#uv .display-value').html(data.uv);
+    $('#temp .display-value').html(data.temp);
   });
 
   // update led when led:toggled event is emitted
@@ -49,11 +49,13 @@ $(function () {
     },
     tooltip: {
       enabled: true
-    }
+    },
+    colors: ['#29B6F6', '#FFA726', '#90ed7d', '#f7a35c', '#8085e9', 
+      '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1']
   });
 
   // build chart showing UV and temp readings
-  $('#chart').highcharts({
+  var Chart = $('#chart').highcharts({
     chart: {
       type: 'spline',
       events: {
@@ -76,7 +78,7 @@ $(function () {
         }
       }
     },
-    credit: false,
+    credits: false,
     title: {
       text: 'Sensor Data'
     },
@@ -137,5 +139,41 @@ $(function () {
       data: []
     }]
   });
+
+  function debounce(func, wait, immediate) {
+    var timeout;
+    return function() {
+      var context = this, args = arguments;
+      var later = function() {
+        timeout = null;
+        if (!immediate) func.apply(context, args);
+      };
+      var callNow = immediate && !timeout;
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+      if (callNow) func.apply(context, args);
+    };
+  };
+
+  var GnBu = ["#f7fcf0","#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe","#0868ac","#084081"];
+  var Spectral = ["#9e0142","#d53e4f","#f46d43","#fdae61","#fee08b","#ffffbf","#e6f598","#abdda4","#66c2a5","#3288bd","#5e4fa2"];
+  var Paired = ["#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c","#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928"];
+  var PRGn = ["#40004b","#762a83","#9970ab","#c2a5cf","#e7d4e8","#f7f7f7","#d9f0d3","#a6dba0","#5aae61","#1b7837","#00441b"];
+
+  var trianglify =  debounce(function () {
+    var pattern = Trianglify({
+      height: window.innerHeight,
+      width: window.innerWidth,
+      cell_size: 40,
+      x_colors: PRGn
+    });
+
+
+    $('#trianglify').html(pattern.canvas());
+  }, 50, false);
+
+  trianglify();  
+
+  window.addEventListener('resize', trianglify);
 });
 

@@ -1,33 +1,93 @@
 body {
+  overflow: hidden;
+}
+
+#trianglify {
+  position: absolute;
+  z-index: -1;
+  height: 100%;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+} 
+
+#container {
+  position: relative;
+
   margin: 0 auto;
-  max-width: 1200px;
+  max-width: 1200px;  
+  overflow: hidden;
 }
 
-li label {
-  display: inline-block;
-  min-width: 100px;
+h1 {
+  margin: 1rem;
+  text-align: center;
 }
 
-.display-value {
-  margin-left: 1em;
-}
-
-.flex {
+#panels {
   display: flex;
-}
+  justify-content: space-around;
 
-li button {
-  align-self: center;
+  .panel {
+    flex: 1;
+    margin: 0 1rem;
 
-  &:hover {
-    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    
+    padding: 1rem;
+
+    border: 1px solid #DDD;
+    border-radius: 4px; 
+
+    > div {
+      display: flex;
+      align-items: flex-start;
+      margin: 0 auto;
+
+      .uom {
+        display: inline-block;
+        margin-left: 6px;
+      }
+    }
+
+    label {
+      font-size: 1.2em;
+    }
+
+    label, span {
+      text-align: center;
+    }
+
+    button {
+      margin: 0 auto;
+      max-width: 80px;
+    }
+
+    .display-value {
+      font-size: 2em;
+    }
+
+
   }
 }
+
+#chart {
+  margin: 1rem;
+
+  > .highcharts-container {
+    border: 1px solid #DDD;
+    border-radius: 4px;
+  }
+}
+
+
 
 // led styles
 .led {
   display: inline-block;
-  margin: 10px 0 0 20px;
+  margin: 0 auto;
   width: 48px;
   height: 48px;
   background-color: #CCC;
@@ -50,4 +110,33 @@ li button {
 .led-green {
   background-color: #ABFF00;
   box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #304701 0 -1px 9px, #89FF00 0 2px 12px;
+}
+
+
+
+// light theme
+body {
+  background-color: #F5F5F5;
+
+  h1 {
+    color: #FFF;
+  }
+
+  .panel {
+    background-color: #FFF
+  }
+
+  #temp {
+
+    .display-value, .uom {
+      color: #29B6F6
+    }
+  }
+
+  #uv {
+
+    .display-value {
+      color: #FFA726
+    }
+  }
 }

@@ -1,25 +1,62 @@
 body {
+  overflow: hidden; }
+
+#trianglify {
+  position: absolute;
+  z-index: -1;
+  height: 100%;
+  top: 0;
+  left: 0;
+  overflow: hidden; }
+
+#container {
+  position: relative;
   margin: 0 auto;
-  max-width: 1200px; }
+  max-width: 1200px;
+  overflow: hidden; }
 
-li label {
-  display: inline-block;
-  min-width: 100px; }
+h1 {
+  margin: 1rem;
+  text-align: center; }
 
-.display-value {
-  margin-left: 1em; }
+#panels {
+  display: flex;
+  justify-content: space-around; }
+  #panels .panel {
+    flex: 1;
+    margin: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 1rem;
+    border: 1px solid #DDD;
+    border-radius: 4px; }
+    #panels .panel > div {
+      display: flex;
+      align-items: flex-start;
+      margin: 0 auto; }
+      #panels .panel > div .uom {
+        display: inline-block;
+        margin-left: 6px; }
+    #panels .panel label {
+      font-size: 1.2em; }
+    #panels .panel label, #panels .panel span {
+      text-align: center; }
+    #panels .panel button {
+      margin: 0 auto;
+      max-width: 80px; }
+    #panels .panel .display-value {
+      font-size: 2em; }
 
-.flex {
-  display: flex; }
-
-li button {
-  align-self: center; }
-  li button:hover {
-    cursor: pointer; }
+#chart {
+  margin: 1rem; }
+  #chart > .highcharts-container {
+    border: 1px solid #DDD;
+    border-radius: 4px; }
 
 .led {
   display: inline-block;
-  margin: 10px 0 0 20px;
+  margin: 0 auto;
   width: 48px;
   height: 48px;
   background-color: #CCC;
@@ -36,3 +73,14 @@ li button {
 .led-green {
   background-color: #ABFF00;
   box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #304701 0 -1px 9px, #89FF00 0 2px 12px; }
+
+body {
+  background-color: #F5F5F5; }
+  body h1 {
+    color: #FFF; }
+  body .panel {
+    background-color: #FFF; }
+  body #temp .display-value, body #temp .uom {
+    color: #29B6F6; }
+  body #uv .display-value {
+    color: #FFA726; }
