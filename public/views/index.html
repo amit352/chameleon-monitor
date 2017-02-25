@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><!-- Mobile Specific Metas--><meta name="HandheldFriendly" content="True"><meta name="MobileOptimized" content="320"><meta name="viewport" content="width=device-width, initial-scale=1.0"><!-- Title and meta description--><title>Chameleon Monitor</title><meta class="description" content="Monitor UV light, temperature, and misting system water level."><!-- CSS--><link rel="stylesheet" href="public/css/main.css"><!-- https://fortawesome.github.io/Font-Awesome/icons/--><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"></head><body><div id="trianglify"></div><div id="container"><h1>Chameleon Monitoring System</h1><div id="panels"><div class="panel" id="temp"><label>Temperature</label><div><span class="display-value">?</span><span class="uom">°F</span></div></div><div class="panel" id="uv"><label>UV Index</label><span class="display-value">?</span></div><div class="panel" id="drain"> <label>Drain level</label><span class="led"></span></div></div><div id="chart"></div></div></body><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/5.0.7/highcharts.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/trianglify/0.4.0/trianglify.min.js"></script><script>$(function () {
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><!-- Mobile Specific Metas--><meta name="HandheldFriendly" content="True"><meta name="MobileOptimized" content="320"><meta name="viewport" content="width=device-width, initial-scale=1.0"><!-- Title and meta description--><title>Chameleon Monitor</title><meta class="description" content="Monitor UV light, temperature, and misting system water level."><!-- CSS--><link rel="stylesheet" href="public/css/main.css"><!-- https://fortawesome.github.io/Font-Awesome/icons/--><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"></head><body><div id="container"><header><div id="trianglify"></div><h1>Chameleon Monitoring System</h1></header><div id="panels"><div class="panel" id="temp"><label>Temperature</label><div><span class="display-value">?</span><span class="uom">°F</span></div></div><div class="panel" id="uv"><label>UV Index</label><span class="display-value">?</span></div><div class="panel" id="drain"> <label>Drain level</label><span class="led"></span></div></div><div id="chart"></div></div></body><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/5.0.7/highcharts.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/trianglify/0.4.0/trianglify.min.js"></script><script>$(function () {
   var socket = io();
   var totalPoints = 30;
 
@@ -161,9 +161,10 @@
   var PRGn = ["#40004b","#762a83","#9970ab","#c2a5cf","#e7d4e8","#f7f7f7","#d9f0d3","#a6dba0","#5aae61","#1b7837","#00441b"];
 
   var trianglify =  debounce(function () {
+    var $h1 = $('header h1');
     var pattern = Trianglify({
-      height: window.innerHeight,
-      width: window.innerWidth,
+      height: $h1.innerHeight(),
+      width: $h1.innerWidth(),
       cell_size: 40,
       x_colors: PRGn
     });

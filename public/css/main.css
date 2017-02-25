@@ -1,23 +1,27 @@
 body {
   overflow: hidden; }
 
-#trianglify {
-  position: absolute;
-  z-index: -1;
-  height: 100%;
-  top: 0;
-  left: 0;
-  overflow: hidden; }
-
 #container {
   position: relative;
   margin: 0 auto;
   max-width: 1200px;
   overflow: hidden; }
 
-h1 {
-  margin: 1rem;
-  text-align: center; }
+header {
+  position: relative; }
+  header #trianglify {
+    position: absolute;
+    z-index: -1;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    margin: 0 1rem;
+    border-radius: 4px; }
+  header h1 {
+    margin: 1rem;
+    text-align: center;
+    padding: 2rem 0; }
 
 #panels {
   display: flex;

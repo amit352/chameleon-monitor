@@ -161,9 +161,10 @@ $(function () {
   var PRGn = ["#40004b","#762a83","#9970ab","#c2a5cf","#e7d4e8","#f7f7f7","#d9f0d3","#a6dba0","#5aae61","#1b7837","#00441b"];
 
   var trianglify =  debounce(function () {
+    var $h1 = $('header h1');
     var pattern = Trianglify({
-      height: window.innerHeight,
-      width: window.innerWidth,
+      height: $h1.innerHeight(),
+      width: $h1.innerWidth(),
       cell_size: 40,
       x_colors: PRGn
     });
