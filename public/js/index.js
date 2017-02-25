@@ -80,7 +80,10 @@ $(function () {
     },
     credits: false,
     title: {
-      text: 'Sensor Data'
+      text: 'Sensor Data',
+      style: {
+        color: '#4d4d4d'
+      }
     },
     xAxis: {
       type: 'datetime',
@@ -104,7 +107,8 @@ $(function () {
       title: {
         text: 'UV Light',
         style: {
-          font: '13px sans-serif'
+          font: '13px sans-serif',
+          color: '#4d4d4d'
         }
       },
       min: 0,
@@ -124,7 +128,10 @@ $(function () {
       }
     },
     legend: {
-      enabled: true
+      enabled: true,
+      itemStyle: {
+        color: '#4d4d4d'
+      }
     },
     exporting: {
       enabled: false
@@ -161,9 +168,10 @@ $(function () {
   var PRGn = ["#40004b","#762a83","#9970ab","#c2a5cf","#e7d4e8","#f7f7f7","#d9f0d3","#a6dba0","#5aae61","#1b7837","#00441b"];
 
   var trianglify =  debounce(function () {
+    var $h1 = $('header h1');
     var pattern = Trianglify({
-      height: window.innerHeight,
-      width: window.innerWidth,
+      height: $h1.innerHeight(),
+      width: $h1.innerWidth(),
       cell_size: 40,
       x_colors: PRGn
     });

@@ -1,23 +1,27 @@
 body {
   overflow: hidden; }
 
-#trianglify {
-  position: absolute;
-  z-index: -1;
-  height: 100%;
-  top: 0;
-  left: 0;
-  overflow: hidden; }
-
 #container {
   position: relative;
   margin: 0 auto;
   max-width: 1200px;
   overflow: hidden; }
 
-h1 {
-  margin: 1rem;
-  text-align: center; }
+header {
+  position: relative; }
+  header #trianglify {
+    position: absolute;
+    z-index: -1;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    margin: 0 1rem;
+    border-radius: 4px; }
+  header h1 {
+    margin: 1rem;
+    text-align: center;
+    padding: 2rem 0; }
 
 #panels {
   display: flex;
@@ -75,9 +79,10 @@ h1 {
   box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #304701 0 -1px 9px, #89FF00 0 2px 12px; }
 
 body {
-  background-color: #F5F5F5; }
+  background-color: #F5F5F5;
+  color: #4d4d4d; }
   body h1 {
-    color: #FFF; }
+    color: #4d4d4d; }
   body .panel {
     background-color: #FFF; }
   body #temp .display-value, body #temp .uom {
