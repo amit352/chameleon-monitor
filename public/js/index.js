@@ -169,6 +169,7 @@ $(function () {
 
   var trianglify =  debounce(function () {
     var $h1 = $('header h1');
+
     var pattern = Trianglify({
       height: $h1.innerHeight(),
       width: $h1.innerWidth(),
@@ -176,9 +177,8 @@ $(function () {
       x_colors: PRGn
     });
 
-
     $('#trianglify').html(pattern.canvas());
-  }, 50, true);
+  }, 50, false);
 
   trianglify();  
 
