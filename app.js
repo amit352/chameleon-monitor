@@ -113,7 +113,7 @@ board.on('ready', function (err) {
         return console.log('Unable to save measurement. \n\n ' + err);
       }
 
-      cosnole.log(results.changes[0].new_val);
+      console.log(results.changes[0].new_val);
     })
   }, 1000);
 
