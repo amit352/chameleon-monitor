@@ -65,7 +65,7 @@ board.on('ready', function (err) {
   });
 
   uv.on('change', function () {
-    _uv = (3.3 / 1024) * this.value * 10;
+    _uv = (3.3 / 1024) * this.raw * 10;
   });
 
   // socket events
@@ -114,7 +114,7 @@ board.on('ready', function (err) {
       }
 
       console.log(results.changes[0].new_val);
-    })
+    });
   }, 1000);
 
   // set the app to listen on port 3000
