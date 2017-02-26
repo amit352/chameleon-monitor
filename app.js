@@ -7,9 +7,10 @@ var express = require('express')
       db: 'chameleon_monitor',
       servers: [{
         host: '192.168.1.249', 
-        port: 8080
+        port: 28015
       }]
     })
+  , insertMeasurement = require('./insertMeasurement')
   , socketIO = require('socket.io')(http)
   , five = require('johnny-five')
   , os = require('os')
