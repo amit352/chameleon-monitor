@@ -105,14 +105,13 @@ $(function () {
       }]
     }, {
       title: {
-        text: 'UV Light',
+        text: 'UV Index',
         style: {
           font: '13px sans-serif',
           color: '#4d4d4d'
         }
       },
       min: 0,
-      max: 1,
       opposite: true,
       plotLines: [{
         value: 0,
@@ -122,7 +121,7 @@ $(function () {
     }],
     tooltip: {
       formatter: function () {
-        var unitOfMeasurement = this.series.name === 'Temperature' ? ' °F' : ' %';
+        var unitOfMeasurement = this.series.name === 'Temperature' ? ' °F' : '';
         return '<b>' + this.series.name + '</b><br/>' +
           Highcharts.numberFormat(this.y, 1) + unitOfMeasurement;
       }
@@ -141,7 +140,7 @@ $(function () {
       yAxis: 0,
       data: []
     }, {
-      name: 'UV Light',
+      name: 'UV Index',
       yAxis: 1,
       data: []
     }]
