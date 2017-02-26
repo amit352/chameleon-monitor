@@ -16,6 +16,7 @@
   "dependencies": {
     "express": "^4.14.1",
     "johnny-five": "^0.10.6",
+    "rethinkdbdash": "^2.3.28",
     "socket.io": "^1.7.2"
   },
   "devDependencies": {

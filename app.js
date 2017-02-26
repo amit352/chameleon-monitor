@@ -3,6 +3,13 @@ var express = require('express')
   , fs = require('fs')
   , path = require('path')
   , http = require('http').createServer(app)
+  , r = require('rethinkdbdash')({
+      db: 'chameleon_monitor',
+      servers: [{
+        host: '192.168.1.249', 
+        port: 8080
+      }]
+    })
   , socketIO = require('socket.io')(http)
   , five = require('johnny-five')
   , os = require('os')
@@ -96,6 +103,17 @@ board.on('ready', function (err) {
 
   setInterval(function () {
     emitReadingsToClient();
+    insertMeasurement(r, {
+      temp: _temp,
+      uv: _uv,
+      date: Date.now()
+    }, function (err, results) {
+      if (err) { 
+        return console.log('Unable to save measurement. \n\n ' + err);
+      }
+
+      cosnole.log(results.changes[0].new_val);
+    })
   }, 1000);
 
   // set the app to listen on port 3000

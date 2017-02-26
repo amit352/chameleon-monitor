@@ -1,5 +1,21 @@
+# Docker
+
+## Run container and attach 
+docker run CONTAINER_ID
+docker attatch CONTAINER_ID
+
+## clone cross build repo
+git clone https://github.com/simenkid/mt7688-cross.git
+
+## Build npm modules for link 7688 DUO
+### run these commands from the mt7688-cross folder
+bash npm_install.sh nameOfNpmModule
+
 ## Move files from docker container to current dir
 docker cp 8c68186d4862:/root/mt7688-cross/node_modules_mips/johnny-five-0.10.6_mips.tar.gz .
+
+## Extract tar to current directory
+tar -xzvf rethinkdbdash-2.3.28_mips.tar.gz
 
 ## Move folder of dependency from host to micro-controller --> moves express
 scp -r express/ root@192.168.1.114:/root/app/node_modules/express
