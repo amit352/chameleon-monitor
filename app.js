@@ -65,7 +65,7 @@ board.on('ready', function (err) {
   });
 
   uv.on('change', function () {
-    _uv = (3.3 / 1024) * this.raw * 10;
+    _uv = Math.round(((3.3 / 1024) * this.raw * 10) * 1000 ) / 1000;
   });
 
   // socket events
