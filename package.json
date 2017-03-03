@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "test-client": "nodemon server.js",
     "dev": "nodemon app.js",
-    "pug": " pug views/pug/index.pug -o public/views",
+    "pug": "pug views/pug/pages -o public/views",
     "sass": "node-sass scss/main.scss public/css/main.css"
   },
   "author": "Ryan Gill",

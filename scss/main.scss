@@ -1,16 +1,15 @@
 $purple: #762a83;
 $green: #1b7837;
 
-
 html, body {
   height: 100%;
   padding: 0;
   margin: 0;
-  font-family: 'Source Sans Pro', sans-serif; 
+  font-family: 'Source Sans Pro', sans-serif;
 }
 
-
 #container {
+  position: relative;
   max-height: 100%;
   min-height: 100%;
   display: flex;
@@ -49,9 +48,6 @@ header {
 
 }
 
-
-
-
 #panels {
   flex: 0 1 auto;
   display: flex;
@@ -65,15 +61,21 @@ header {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    
+
     padding: 1rem;
 
     border: 1px solid #DDD;
     border-radius: 4px;
 
+    user-select: none;
+
+    &:hover {
+      cursor: pointer;
+    }
+
     &:nth-of-type(2) {
       margin: 0 1rem;
-    } 
+    }
 
     > div {
       display: flex;
@@ -92,6 +94,10 @@ header {
 
     label, span {
       text-align: center;
+
+      &:hover {
+        cursor: pointer;
+      }
     }
 
     button {
@@ -103,14 +109,13 @@ header {
       font-size: 2em;
     }
 
-
   }
 }
 
 #chart {
   flex: 1 1 auto;
   padding: 0;
-  margin: 1rem;    
+  margin: 1rem;
 
   > .highcharts-container {
     border: 1px solid #DDD;
@@ -118,29 +123,17 @@ header {
   }
 }
 
-
-
 // led styles
 .led {
   display: inline-block;
   margin: 0 auto;
-  width: 48px;
-  height: 48px;
+  width: 24px;
+  height: 24px;
   background-color: #CCC;
   border-radius: 50%;
 
-  transition: all 400ms ease-out;
+  transition: all 150ms ease-out;
   box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 2px 1px;
-
-  &:hover {
-    cursor: pointer;
-  }
-
-}
-
-.led-red {
-  background-color: #F00;
-  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 12px;
 }
 
 .led-green {
@@ -148,7 +141,10 @@ header {
   box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #304701 0 -1px 9px, #89FF00 0 2px 12px;
 }
 
-
+.led-red {
+  background-color: #F00;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 12px;
+}
 
 // light theme
 body {
@@ -156,7 +152,7 @@ body {
   color: #4d4d4d;
 
   h1 {
-    color: #4d4d4d;
+    color: rgba(76, 6, 125, 0.6);
   }
 
   .panel {
@@ -178,8 +174,51 @@ body {
   }
 }
 
+// historical chart styling
+#detail-container {
+  flex: 2 1 0;
+  margin: 1rem 1rem 0 1rem;
+}
+
+#master-container {
+  flex: 1 1 0;
+  margin: 0 1rem 1rem 1rem;
+}
+
+#home {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  font-size: 2em;
+  color: #FFFFFF;
+  margin: 1rem;
+  z-index: 10;
+  border-radius: 50%;
+  padding: .5rem;
+  transition: background-color 150ms ease-out;
+
+  &.purple {
+    color: lighten($purple, 60%);
+    background-color: $purple;
+
+    &:hover {
+      background-color: lighten($purple, 10%);
+      cursor: pointer;
+    }
+  }
+
+  &.green {
+    background-color: $green;
+
+    &:hover {
+      background-color: lighten($green, 10%);
+      cursor: pointer;
+    }
+  }
+}
+
 @media (max-width: 510px) {
-  #container{
+  #container {
     header {
       display: none;
     }
@@ -187,5 +226,17 @@ body {
     #panels {
       margin-top: 1rem;
     }
-  } 
+  }
+}
+
+@media (max-height: 500px) {
+  #container {
+    header {
+      display: none;
+    }
+
+    #panels {
+      margin-top: 1rem;
+    }
+  }
 }

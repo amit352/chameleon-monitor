@@ -1,4 +1,4 @@
-extends layout
+extends ../extensions/_layout
 
 block page_content
     #container
@@ -14,8 +14,8 @@ block page_content
             #uv.panel
                 label UV Index
                 span.display-value ?
-            #drain.panel 
-                label Drain level
+            #drain.panel
+                label Mister
                 span.led
         #chart
 
@@ -25,4 +25,4 @@ block page_scripts
     script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.min.js")
     script(src="https://cdnjs.cloudflare.com/ajax/libs/trianglify/0.4.0/trianglify.min.js")
     script
-        include ./../../public/js/index.js
+        include ../../../public/js/index.js

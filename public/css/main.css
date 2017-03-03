@@ -5,6 +5,7 @@ html, body {
   font-family: 'Source Sans Pro', sans-serif; }
 
 #container {
+  position: relative;
   max-height: 100%;
   min-height: 100%;
   display: flex;
@@ -46,7 +47,10 @@ header {
     justify-content: space-around;
     padding: 1rem;
     border: 1px solid #DDD;
-    border-radius: 4px; }
+    border-radius: 4px;
+    user-select: none; }
+    #panels .panel:hover {
+      cursor: pointer; }
     #panels .panel:nth-of-type(2) {
       margin: 0 1rem; }
     #panels .panel > div {
@@ -60,6 +64,8 @@ header {
       font-size: 1.2em; }
     #panels .panel label, #panels .panel span {
       text-align: center; }
+      #panels .panel label:hover, #panels .panel span:hover {
+        cursor: pointer; }
     #panels .panel button {
       margin: 0 auto;
       max-width: 80px; }
@@ -77,28 +83,26 @@ header {
 .led {
   display: inline-block;
   margin: 0 auto;
-  width: 48px;
-  height: 48px;
+  width: 24px;
+  height: 24px;
   background-color: #CCC;
   border-radius: 50%;
-  transition: all 400ms ease-out;
+  transition: all 150ms ease-out;
   box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 2px 1px; }
-  .led:hover {
-    cursor: pointer; }
-
-.led-red {
-  background-color: #F00;
-  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 12px; }
 
 .led-green {
   background-color: #ABFF00;
   box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #304701 0 -1px 9px, #89FF00 0 2px 12px; }
 
+.led-red {
+  background-color: #F00;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 12px; }
+
 body {
   background-color: #F5F5F5;
   color: #4d4d4d; }
   body h1 {
-    color: #4d4d4d; }
+    color: rgba(76, 6, 125, 0.6); }
   body .panel {
     background-color: #FFF; }
   body #temp .display-value, body #temp .uom {
@@ -106,7 +110,44 @@ body {
   body #uv .display-value {
     color: #1b7837; }
 
+#detail-container {
+  flex: 2 1 0;
+  margin: 1rem 1rem 0 1rem; }
+
+#master-container {
+  flex: 1 1 0;
+  margin: 0 1rem 1rem 1rem; }
+
+#home {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  font-size: 2em;
+  color: #FFFFFF;
+  margin: 1rem;
+  z-index: 10;
+  border-radius: 50%;
+  padding: .5rem;
+  transition: background-color 150ms ease-out; }
+  #home.purple {
+    color: #f5e8f7;
+    background-color: #762a83; }
+    #home.purple:hover {
+      background-color: #9936aa;
+      cursor: pointer; }
+  #home.green {
+    background-color: #1b7837; }
+    #home.green:hover {
+      background-color: #24a24a;
+      cursor: pointer; }
+
 @media (max-width: 510px) {
+  #container header {
+    display: none; }
+  #container #panels {
+    margin-top: 1rem; } }
+
+@media (max-height: 500px) {
   #container header {
     display: none; }
   #container #panels {

@@ -9,6 +9,14 @@ var express = require('express')
   , app = express()
   , fs = require('fs')
   , path = require('path')
+  , r = require('rethinkdbdash')({
+    db: 'chameleon_monitor',
+    servers: [{
+      host: 'localhost',
+      port: 28015
+    }]
+  })
+  , getHistoricalData = require('./getMeasurements')
   , http = require('http').createServer(app)
   , socketIO = require('socket.io')(http)
   , os = require('os')
@@ -22,6 +30,30 @@ app.use('/public', express.static(__dirname + '/public'));
 
 app.get('/', function (req, res, next) {
   res.sendFile(path.join(__dirname + '/public/views/index.html'));
+});
+
+app.get('/temperature', function (req, res, next) {
+  res.sendFile(path.join(__dirname + '/public/views/temperature.html'));
+});
+
+app.get('/uv', function (req, res, next) {
+  res.sendFile(path.join(__dirname + '/public/views/uv.html'));
+});
+
+app.get('/api/temperature', function (req, res, next) {
+  getHistoricalData(r, 'temp', function (err, data) {
+    if (err) { return next(err); }
+
+    res.json(data);
+  });
+});
+
+app.get('/api/uv', function (req, res, next) {
+  getHistoricalData(r, 'uv', function (err, data) {
+    if (err) { return next(err); }
+
+    res.json(data);
+  });
 });
 
 // socket events

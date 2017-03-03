@@ -1,0 +1,15 @@
+extends ../extensions/_layout
+
+block page_content
+    #container
+        #home.purple(title="Back home.")
+            i.fa.fa-home
+        #detail-container
+        #master-container
+
+block page_scripts
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/5.0.7/highcharts.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.min.js")
+    script
+        include ../../../public/js/temperature.js

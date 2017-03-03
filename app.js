@@ -11,6 +11,7 @@ var express = require('express')
       }]
     })
   , insertMeasurement = require('./insertMeasurement')
+  , getHistoricalData = require('./getMeasurements')
   , socketIO = require('socket.io')(http)
   , five = require('johnny-five')
   , os = require('os')
@@ -26,9 +27,36 @@ var express = require('express')
 
 app.use('/public', express.static(__dirname + '/public'));
 
+// index route
 app.get('/', function (req, res, next) {
   res.sendFile(path.join(__dirname + '/public/views/index.html'));
 });
+
+app.get('/temperature', function (req, res, next) {
+  res.sendFile(path.join(__dirname + '/public/views/temperature.html'));
+});
+
+app.get('/uv', function (req, res, next) {
+  res.sendFile(path.join(__dirname + '/public/views/uv.html'));
+});
+
+app.get('/api/temperature', function (req, res, next) {
+  getHistoricalData(r, 'temp', function (err, data) {
+    if (err) { return next(err); }
+
+    res.json(data);
+  });
+});
+
+app.get('/api/uv', function (req, res, next) {
+  getHistoricalData(r, 'uv', function (err, data) {
+    if (err) { return next(err); }
+
+    res.json(data);
+  });
+});
+
+
 
 var board = new five.Board({
   port: "/dev/ttyS0"

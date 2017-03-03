@@ -29,10 +29,19 @@ $(function () {
   });
 
   // click even for toggling led
-  $('button.toggleLed, .led').on('click', function () {
+  $('#drain').on('click', function () {
     if (socket) {
       socket.emit('toggleLed');
     }
+  });
+
+  // click event for historical data
+  $('#temp').on('click', function (e) {
+    window.location.href = '/temperature'
+  });
+
+  $('#uv').on('click', function (e) {
+    window.location.href = '/uv'
   });
 
   // setting options for HighCharts
@@ -50,7 +59,7 @@ $(function () {
     tooltip: {
       enabled: true
     },
-    colors: ['#762a83', '#1b7837', '#90ed7d', '#f7a35c', '#8085e9', 
+    colors: ['#762a83', '#1b7837', '#90ed7d', '#f7a35c', '#8085e9',
       '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1']
   });
 
@@ -93,7 +102,8 @@ $(function () {
       title: {
         text: 'Temperature',
         style: {
-          font: '13px sans-serif'
+          fontSize: '1.2em',
+          color: '#762a83'
         }
       },
       min: 0,
@@ -107,8 +117,8 @@ $(function () {
       title: {
         text: 'UV Index',
         style: {
-          font: '13px sans-serif',
-          color: '#4d4d4d'
+          fontSize: '1.2em',
+          color: '#1b7837'
         }
       },
       min: 0,
@@ -129,7 +139,8 @@ $(function () {
     legend: {
       enabled: true,
       itemStyle: {
-        color: '#4d4d4d'
+        color: '#4d4d4d',
+        fontSize: '1.2em'
       }
     },
     exporting: {
@@ -150,9 +161,9 @@ $(function () {
 
   function debounce(func, wait, immediate) {
     var timeout;
-    return function() {
+    return function () {
       var context = this, args = arguments;
-      var later = function() {
+      var later = function () {
         timeout = null;
         if (!immediate) func.apply(context, args);
       };
@@ -163,12 +174,12 @@ $(function () {
     };
   };
 
-  var GnBu = ["#f7fcf0","#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe","#0868ac","#084081"];
-  var Spectral = ["#9e0142","#d53e4f","#f46d43","#fdae61","#fee08b","#ffffbf","#e6f598","#abdda4","#66c2a5","#3288bd","#5e4fa2"];
-  var Paired = ["#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c","#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928"];
-  var PRGn = ["#40004b","#762a83","#9970ab","#c2a5cf","#e7d4e8","#f7f7f7","#d9f0d3","#a6dba0","#5aae61","#1b7837","#00441b"];
+  var GnBu = ["#f7fcf0", "#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#4eb3d3", "#2b8cbe", "#0868ac", "#084081"];
+  var Spectral = ["#9e0142", "#d53e4f", "#f46d43", "#fdae61", "#fee08b", "#ffffbf", "#e6f598", "#abdda4", "#66c2a5", "#3288bd", "#5e4fa2"];
+  var Paired = ["#a6cee3", "#1f78b4", "#b2df8a", "#33a02c", "#fb9a99", "#e31a1c", "#fdbf6f", "#ff7f00", "#cab2d6", "#6a3d9a", "#ffff99", "#b15928"];
+  var PRGn = ["#40004b", "#762a83", "#9970ab", "#c2a5cf", "#e7d4e8", "#f7f7f7", "#d9f0d3", "#a6dba0", "#5aae61", "#1b7837", "#00441b"];
 
-  var updateHeaderAndChart =  debounce(function () {
+  var updateHeaderAndChart = debounce(function () {
     var $header = $('header');
 
     var pattern = Trianglify({
@@ -185,8 +196,8 @@ $(function () {
     }
   }, 50, false);
 
-  updateHeaderAndChart(); 
+  updateHeaderAndChart();
 
-  window.addEventListener('resize',updateHeaderAndChart);
+  window.addEventListener('resize', updateHeaderAndChart);
 });
 

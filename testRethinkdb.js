@@ -2,7 +2,7 @@
 var r = require('rethinkdbdash')({
       db: 'chameleon_monitor',
       servers: [{
-        host: '192.168.1.249', 
+        host: 'localhost',
         port: 28015
       }]
     })
