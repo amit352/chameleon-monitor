@@ -98,6 +98,9 @@ header {
   background-color: #F00;
   box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 12px; }
 
+.hide {
+  display: none !important; }
+
 body {
   background-color: #F5F5F5;
   color: #4d4d4d; }
@@ -105,8 +108,14 @@ body {
     color: rgba(76, 6, 125, 0.6); }
   body .panel {
     background-color: #FFF; }
+    body .panel:hover {
+      background-color: #e6e6e6; }
+  body #temp:hover {
+    background-color: #f5e8f7; }
   body #temp .display-value, body #temp .uom {
     color: #762a83; }
+  body #uv:hover {
+    background-color: #e5f9eb; }
   body #uv .display-value {
     color: #1b7837; }
 

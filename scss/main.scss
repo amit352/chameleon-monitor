@@ -146,6 +146,10 @@ header {
   box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 12px;
 }
 
+.hide {
+  display: none !important;
+}
+
 // light theme
 body {
   background-color: #F5F5F5;
@@ -156,10 +160,18 @@ body {
   }
 
   .panel {
-    background-color: #FFF
+    background-color: #FFF;
+
+    &:hover {
+      background-color: darken(#fff, 10);
+    }
   }
 
   #temp {
+
+    &:hover {
+      background-color: lighten($purple, 60);
+    }
 
     .display-value, .uom {
       color: $purple;
@@ -167,6 +179,10 @@ body {
   }
 
   #uv {
+
+    &:hover {
+      background-color: lighten($green, 65);
+    }
 
     .display-value {
       color: $green;
