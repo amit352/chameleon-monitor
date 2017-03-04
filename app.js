@@ -92,8 +92,7 @@ board.on('ready', function (err) {
 
   var drainLevel = new five.Sensor({
     pin: "A2",
-    freq: 250,
-    threshold: 50
+    freq: 250
   });
 
   temp.on('change', function () {
