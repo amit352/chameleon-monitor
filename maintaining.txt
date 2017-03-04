@@ -19,3 +19,9 @@ tar -xzvf rethinkdbdash-2.3.28_mips.tar.gz
 
 ## Move folder of dependency from host to micro-controller --> moves express
 scp -r express/ root@192.168.1.114:/root/app/node_modules/express
+
+
+
+# Server if hosting RethinkDB
+## start the database by running the following command
+rethinkdb --bind all

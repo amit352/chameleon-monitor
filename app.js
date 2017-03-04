@@ -3,11 +3,13 @@ var express = require('express')
   , fs = require('fs')
   , path = require('path')
   , http = require('http').createServer(app)
+  , db_host = '192.168.1.20'
+  , db_port = 28015
   , r = require('rethinkdbdash')({
       db: 'chameleon_monitor',
       servers: [{
-        host: '192.168.1.249', 
-        port: 28015
+        host: db_host,
+        port: db_port
       }]
     })
   , insertMeasurement = require('./insertMeasurement')
@@ -22,6 +24,7 @@ var express = require('express')
   , _temp = 0
   , _uv = 0
   , _users = 0
+  , _drainLevel = 0
   , _date
   ;
 
@@ -85,7 +88,18 @@ board.on('ready', function (err) {
   var uv = new five.Sensor({
     pin: "A1",
     freq: 250,
-    thresh: 0.5
+    uvIndex: function () {
+      return Math.round(((3.3 / 1024) * this.raw * 10) * 1000 ) / 1000;
+    }
+  });
+
+  var drainLevel = new five.Sensor({
+    pin: "A2",
+    freq: 250,
+    threshold: 50,
+    getLevel: function () {
+      return this.raw > 50 ? 'High' : 'Low'
+    }
   });
 
   temp.on('change', function () {
@@ -93,7 +107,13 @@ board.on('ready', function (err) {
   });
 
   uv.on('change', function () {
-    _uv = Math.round(((3.3 / 1024) * this.raw * 10) * 1000 ) / 1000;
+    _uv = this.uvIndex();
+  });
+
+  drainLevel.on('change', function () {
+    console.log(this.raw);
+    console.log(this.getLevel());
+    _drainLevel = this.raw > 0 ? 1 : 0;
   });
 
   // socket events
@@ -128,7 +148,7 @@ board.on('ready', function (err) {
     _date = Date.now();
 
     socketIO.sockets.emit('new-reading', {uv: _uv, temp: _temp, date: _date});
-  };
+  }
 
   setInterval(function () {
     emitReadingsToClient();
@@ -138,17 +158,17 @@ board.on('ready', function (err) {
       date: Date.now()
     }, function (err, results) {
       if (err) { 
-        return console.log('Unable to save measurement. \n\n ' + err);
+        return console.log('Unable to save measurement. \n' + err);
       }
 
-      console.log(results.changes[0].new_val);
+      //console.log(results.changes[0].new_val);
     });
   }, 1000);
 
-  // set the app to listen on port 3000
+  // set the app to listen on PORT
   http.listen(PORT);
 
-  // log the port
+  // log the address and port
   console.log('Up and running on ' + address + ':' + PORT);
 });
 
