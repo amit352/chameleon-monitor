@@ -20,7 +20,7 @@ var express = require('express')
   , eth0 = os.networkInterfaces().apcli0
   , address = eth0 && eth0.length && eth0[0].address ? eth0[0].address : null
   , PORT = 3030
-  , pumpState = 0
+  , _pumpState = 0
   , _temp = 0
   , _uv = 0
   , _users = 0
@@ -109,7 +109,7 @@ board.on('ready', function (err) {
     // turn off pump when high drain level
     if (_drainLevel === 'high') {
       pump.off();
-      pumpState = 0;
+      _pumpState = 0;
     }
   });
 
@@ -129,10 +129,10 @@ board.on('ready', function (err) {
         return;
       }
 
-      pumpState = Math.abs(pumpState - 1);
-      pump.toggle(pumpState);
+      _pumpState = Math.abs(_pumpState - 1);
+      pump.toggle(_pumpState);
       // emit led was toggled
-      socketIO.sockets.emit('pump:toggled', {ledState: pumpState});
+      socketIO.sockets.emit('pump:toggled', {pumpState: _pumpState});
     });
 
     socket.on('disconnect', function () {

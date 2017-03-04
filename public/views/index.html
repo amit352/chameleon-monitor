@@ -35,7 +35,7 @@
 
   // update led when led:toggled event is emitted
   socket.on('pump:toggled', function (data) {
-    if (data.state) {
+    if (data.pumpState) {
       $('.led').addClass('led-green');
     } else {
       $('.led').removeClass('led-green');
