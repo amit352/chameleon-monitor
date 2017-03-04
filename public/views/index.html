@@ -12,7 +12,7 @@
       $('#drain > label.drainLevel')
         .removeClass('hide')
         .siblings('label').addClass('hide')
-        .siblings('.led').addClass('led-red');
+        .siblings('.led').addClass('led-red').removeClass('led-green');
     } else {
       $('#drain > label.drainLevel')
         .addClass('hide')
