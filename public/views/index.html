@@ -1,9 +1,24 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><!-- Mobile Specific Metas--><meta name="HandheldFriendly" content="True"><meta name="MobileOptimized" content="320"><meta name="viewport" content="width=device-width, initial-scale=1.0"><!-- Title and meta description--><title>Chameleon Monitor</title><meta class="description" content="Monitor UV light, temperature, and misting system water level."><!-- CSS--><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css"><link rel="stylesheet" href="public/css/main.css"></head><body><div class="animated fadeIn" id="container"><header><div class="animated fadeIn" id="trianglify"></div><h1>Chameleon Monitoring System</h1></header><div id="panels"><div class="panel" id="temp"><label>Temperature</label><div><span class="display-value">?</span><span class="uom">°F</span></div></div><div class="panel" id="uv"><label>UV Index</label><span class="display-value">?</span></div><div class="panel" id="drain"><label>Mister</label><span class="led"></span></div></div><div id="chart"></div></div></body><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/5.0.7/highcharts.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/trianglify/0.4.0/trianglify.min.js"></script><script>$(function () {
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><!-- Mobile Specific Metas--><meta name="HandheldFriendly" content="True"><meta name="MobileOptimized" content="320"><meta name="viewport" content="width=device-width, initial-scale=1.0"><!-- Title and meta description--><title>Chameleon Monitor</title><meta class="description" content="Monitor UV light, temperature, and misting system water level."><!-- CSS--><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css"><link rel="stylesheet" href="public/css/main.css"></head><body><div class="animated fadeIn" id="container"><header><div class="animated fadeIn" id="trianglify"></div><h1>Chameleon Monitoring System</h1></header><div id="panels"><div class="panel" id="temp"><label>Temperature</label><div><span class="display-value">?</span><span class="uom">°F</span></div></div><div class="panel" id="uv"><label>UV Index</label><span class="display-value">?</span></div><div class="panel" id="drain"><label class="mister animated fadeIn">Mister</label><label class="drainLevel red animated pulse">High Level!</label><span class="led led-red"></span></div></div><div id="chart"></div></div></body><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/5.0.7/highcharts.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/trianglify/0.4.0/trianglify.min.js"></script><script>$(function () {
   var socket = io();
   var totalPoints = 30;
 
   function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  function updateDrainLevel(data) {
+    // if drain level is high disable mister and turn led red
+    if (data.drainLevel === 'high') {
+      $('#drain > label.drainLevel')
+        .removeClass('hide')
+        .siblings('label').addClass('hide')
+        .siblings('.led').addClass('led-red');
+    } else {
+      $('#drain > label.drainLevel')
+        .addClass('hide')
+        .siblings('label').removeClass('hide')
+        .siblings('.led').removeClass('led-red');
+    }
   }
 
   // emit new user has joined
@@ -15,13 +30,12 @@
   socket.on('new-reading', function (data) {
     $('#uv .display-value').html(data.uv);
     $('#temp .display-value').html(Math.round(data.temp));
+    updateDrainLevel(data);
   });
 
   // update led when led:toggled event is emitted
-  socket.on('led:toggled', function (data) {
-    var state = data.ledState;
-
-    if (state) {
+  socket.on('pump:toggled', function (data) {
+    if (data.state) {
       $('.led').addClass('led-green');
     } else {
       $('.led').removeClass('led-green');
@@ -29,9 +43,14 @@
   });
 
   // click even for toggling led
-  $('#drain').on('click', function () {
+  $('#drain').on('click', function (e) {
+    if ($(e.target).children('.led').hasClass('.led-red')) {
+      // don't toggle pump if drain level is high.
+      return;
+    }
+
     if (socket) {
-      socket.emit('toggleLed');
+      socket.emit('togglePump');
     }
   });
 

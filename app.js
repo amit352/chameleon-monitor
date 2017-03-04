@@ -20,11 +20,11 @@ var express = require('express')
   , eth0 = os.networkInterfaces().apcli0
   , address = eth0 && eth0.length && eth0[0].address ? eth0[0].address : null
   , PORT = 3030
-  , ledState = 0
+  , pumpState = 0
   , _temp = 0
   , _uv = 0
   , _users = 0
-  , _drainLevel = 0
+  , _drainLevel = 'low'
   , _date
   ;
 
@@ -74,7 +74,7 @@ board.on('ready', function (err) {
 
   console.log('connected...Johnny-Five ready to go.');
 
-  var led = new five.Led(13);
+  var pump = new five.Led(13);
 
   var temp = new five.Thermometer({
     pin: "A0",
@@ -104,8 +104,13 @@ board.on('ready', function (err) {
   });
 
   drainLevel.on('change', function () {
-    _drainLevel = this.raw > 25 ? 'high' : 'low';
-    console.log('drain level: ', _drainLevel);
+    _drainLevel = this.raw > 200 ? 'high' : 'low';
+
+    // turn off pump when high drain level
+    if (_drainLevel === 'high') {
+      pump.off();
+      pumpState = 0;
+    }
   });
 
   // socket events
@@ -118,11 +123,16 @@ board.on('ready', function (err) {
       console.log('Total users: ' + _users);
     });
 
-    socket.on('toggleLed', function () {
-      ledState = Math.abs(ledState - 1);
-      led.toggle(ledState);
+    socket.on('togglePump', function () {
+      if (_drainLevel === 'high') {
+        // pump is disabled because of high level
+        return;
+      }
+
+      pumpState = Math.abs(pumpState - 1);
+      pump.toggle(pumpState);
       // emit led was toggled
-      socketIO.sockets.emit('led:toggled', {ledState: ledState});
+      socketIO.sockets.emit('pump:toggled', {ledState: pumpState});
     });
 
     socket.on('disconnect', function () {
@@ -139,7 +149,12 @@ board.on('ready', function (err) {
 
     _date = Date.now();
 
-    socketIO.sockets.emit('new-reading', {uv: _uv, temp: _temp, date: _date});
+    socketIO.sockets.emit('new-reading', {
+      date: _date,
+      drainLevel: _drainLevel,
+      temp: _temp,
+      uv: _uv
+    });
   }
 
   setInterval(function () {

@@ -2,7 +2,7 @@
 
 ## Run container and attach 
 docker run CONTAINER_ID
-docker attatch CONTAINER_ID
+docker attach CONTAINER_ID
 
 ## clone cross build repo
 git clone https://github.com/simenkid/mt7688-cross.git

@@ -24,6 +24,7 @@ var express = require('express')
   , PORT = 3030
   , ledState = 0
   , _users = 0
+  , _drainLevel = 'high'
   ;
 
 app.use('/public', express.static(__dirname + '/public'));
@@ -67,6 +68,8 @@ socketIO.on('connection', function (socket) {
   });
 
   socket.on('toggleLed', function () {
+
+
     ledState = Math.abs(ledState - 1);
     // emit led was toggled
     socketIO.sockets.emit('led:toggled', {ledState: ledState});
@@ -94,7 +97,7 @@ function emitRandomValues() {
   var temp = getRandomInt(70, 90);
   var date = Date.now();
 
-  socketIO.emit('new-reading', {uv: uv, temp: temp, date: date});
+  socketIO.emit('new-reading', {drainLevel: _drainLevel, uv: uv, temp: temp, date: date});
 }
 
 // emit random values every second

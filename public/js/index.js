@@ -6,6 +6,21 @@ $(function () {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
+  function updateDrainLevel(data) {
+    // if drain level is high disable mister and turn led red
+    if (data.drainLevel === 'high') {
+      $('#drain > label.drainLevel')
+        .removeClass('hide')
+        .siblings('label').addClass('hide')
+        .siblings('.led').addClass('led-red');
+    } else {
+      $('#drain > label.drainLevel')
+        .addClass('hide')
+        .siblings('label').removeClass('hide')
+        .siblings('.led').removeClass('led-red');
+    }
+  }
+
   // emit new user has joined
   socket.emit('newUser', {
     date: Date.now()
@@ -15,13 +30,12 @@ $(function () {
   socket.on('new-reading', function (data) {
     $('#uv .display-value').html(data.uv);
     $('#temp .display-value').html(Math.round(data.temp));
+    updateDrainLevel(data);
   });
 
   // update led when led:toggled event is emitted
-  socket.on('led:toggled', function (data) {
-    var state = data.ledState;
-
-    if (state) {
+  socket.on('pump:toggled', function (data) {
+    if (data.state) {
       $('.led').addClass('led-green');
     } else {
       $('.led').removeClass('led-green');
@@ -29,9 +43,14 @@ $(function () {
   });
 
   // click even for toggling led
-  $('#drain').on('click', function () {
+  $('#drain').on('click', function (e) {
+    if ($(e.target).children('.led').hasClass('.led-red')) {
+      // don't toggle pump if drain level is high.
+      return;
+    }
+
     if (socket) {
-      socket.emit('toggleLed');
+      socket.emit('togglePump');
     }
   });
 
