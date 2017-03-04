@@ -78,7 +78,7 @@ board.on('ready', function (err) {
 
   var temp = new five.Thermometer({
     pin: "A0",
-    freq: 250,
+    freq: 125,
     toCelsius: function (raw) {
       // adjusting to match 3.3v of 7688 DUO
       return (3.3 / 1024) * raw * 100;
@@ -87,19 +87,13 @@ board.on('ready', function (err) {
 
   var uv = new five.Sensor({
     pin: "A1",
-    freq: 250,
-    uvIndex: function () {
-      return Math.round(((3.3 / 1024) * this.raw * 10) * 1000 ) / 1000;
-    }
+    freq: 125
   });
 
   var drainLevel = new five.Sensor({
     pin: "A2",
     freq: 250,
-    threshold: 50,
-    getLevel: function () {
-      return this.raw > 50 ? 'High' : 'Low'
-    }
+    threshold: 50
   });
 
   temp.on('change', function () {
@@ -107,13 +101,12 @@ board.on('ready', function (err) {
   });
 
   uv.on('change', function () {
-    _uv = this.uvIndex();
+    _uv =  Math.round(((3.3 / 1024) * this.raw * 10) * 1000 ) / 1000;
   });
 
   drainLevel.on('change', function () {
-    console.log(this.raw);
-    console.log(this.getLevel());
-    _drainLevel = this.raw > 0 ? 1 : 0;
+    _drainLevel = this.raw > 25 ? 'high' : 'low';
+    console.log('drain level: ', _drainLevel);
   });
 
   // socket events
