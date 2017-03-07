@@ -36,3 +36,5 @@ workspace.xml
 .idea/watcherTasks.xml
 
 *.DS_Store
+
+config.js

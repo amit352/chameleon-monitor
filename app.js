@@ -14,6 +14,7 @@ var express = require('express')
     })
   , insertMeasurement = require('./insertMeasurement')
   , getHistoricalData = require('./getMeasurements')
+  , sendHighAlertEmail = require('./sendHighAlertEmail')
   , socketIO = require('socket.io')(http)
   , five = require('johnny-five')
   , os = require('os')
@@ -24,6 +25,7 @@ var express = require('express')
   , _temp = 0
   , _uv = 0
   , _users = 0
+  , _lastEmailDate = 0
   , _drainLevel = 'low'
   , _date
   ;
@@ -110,6 +112,17 @@ board.on('ready', function (err) {
     if (_drainLevel === 'high') {
       pump.off();
       _pumpState = 0;
+
+      // send high level alarm email every hour
+      if (Date.now() - _lastEmailDate > 3600000) {
+        sendHighAlertEmail(_lastEmailDate, function (err, info) {
+          if (err) {
+            return console.log(err);
+          }
+
+          _lastEmailDate = Date.now();
+        });
+      }
     }
   });
 
