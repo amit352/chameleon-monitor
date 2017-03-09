@@ -76,7 +76,7 @@ board.on('ready', function (err) {
 
   console.log('connected...Johnny-Five ready to go.');
 
-  var pump = new five.Led("D0");
+  var pump = new five.Led(12);
 
   var temp = new five.Thermometer({
     pin: "A0",
