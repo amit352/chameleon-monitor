@@ -14,7 +14,7 @@ var express = require('express')
     })
   , insertMeasurement = require('./insertMeasurement')
   , getHistoricalData = require('./getMeasurements')
-  , sendHighAlertEmail = require('./sendHighAlertEmail')
+  //, sendHighAlertEmail = require('./sendHighAlertEmail')
   , socketIO = require('socket.io')(http)
   , five = require('johnny-five')
   , os = require('os')
@@ -114,15 +114,16 @@ board.on('ready', function (err) {
       _pumpState = 0;
 
       // send high level alarm email every hour
-      if (Date.now() - _lastEmailDate > 3600000) {
-        sendHighAlertEmail(_lastEmailDate, function (err, info) {
-          if (err) {
-            return console.log(err);
-          }
-
-          _lastEmailDate = Date.now();
-        });
-      }
+      // NOT SUPPORTED in NODE v0.12.7
+      //if (Date.now() - _lastEmailDate > 3600000) {
+      //  sendHighAlertEmail(_lastEmailDate, function (err, info) {
+      //    if (err) {
+      //      return console.log(err);
+      //    }
+      //
+      //    _lastEmailDate = Date.now();
+      //  });
+      //}
     }
   });
 
